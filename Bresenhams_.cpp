@@ -51,6 +51,7 @@ int main()
      
      int midx = screenWidth/2;
      int midy= screenHeight/2;
+<<<<<<< HEAD
      
      setcolor(WHITE);
      outtextxy(midx+20,midy+20,"(0,0)");
@@ -58,6 +59,19 @@ int main()
      outtextxy(midx+ x1+5,midy- y1+5,"Starting point");
      setcolor(WHITE);
      outtextxy(midx+ x2+5,midy-y2+5,"Ending Point");
+=======
+     x1= midx+x1;
+     x2= midx+x2;
+     y1= midy-y1;
+     y2= midy-y2;
+
+     setcolor(WHITE);
+     outtextxy(midx+20,midy+20,"(0,0)");
+     setcolor(WHITE);
+     outtextxy(x1+5,y1+5,"Starting point");
+     setcolor(WHITE);
+     outtextxy(x2+5,y2+5,"Ending Point");
+>>>>>>> origin
 
     dx= x2-x1;
     dy= y2-y1;
@@ -66,6 +80,7 @@ int main()
     swap(x1,x2);
     swap(y1,y2);
    }
+<<<<<<< HEAD
   
     do
     {
@@ -73,6 +88,17 @@ int main()
         putpixel(midx+x1,midy-y1,RED);
         putpixel(midx+x1-1,midy-y1,RED);
         putpixel(midx+x1,midy-y1-1,RED);
+=======
+   cout<<x1<<"  "<<y1<<endl;
+   cout<<x2<<"  "<<y2<<endl;
+
+    do
+    {
+        
+        putpixel(x1,y1,RED);
+        putpixel(x1-1,y1,RED);
+        putpixel(x1,y1-1,RED);
+>>>>>>> origin
         
         if(p0<0)
             {
