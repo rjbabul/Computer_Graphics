@@ -1,61 +1,79 @@
-#include <bits/stdc++.h>
-#include <graphics.h>
+//reflection circle simple draw
+#include<bits/stdc++.h>
+#include<graphics.h>
 using namespace std;
 
-void drawing_rectangle(float x1, float y1, float x2, float y2, int str)
+void plotgraph(int screenWidth,int screenHeight)
 {
-    float dx, dy, steps, x_inc, y_inc;
-
-    dx = x2 - x1;
-    dy = y2 - y1;
-    if (abs(dx) > abs(dy))
-        steps = abs(dx);
-    else
-        steps = abs(dy);
-    x_inc = dx / steps;
-    y_inc = dy / steps;
-    int i = 1;
-
-    do
-    {
-        putpixel((int)x1, (int)y1, str);
-        x1 += round(x_inc);
-        y1 += round(y_inc);
-
-    } while (i++ <= steps);
+	//plotting grids
+	for(int i=screenWidth/2;i<=screenWidth;i=i+25)
+	{
+		for(int j=screenHeight/2;j<=screenHeight;j=j+25)
+		{
+			setcolor(DARKGRAY);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	for(int i=screenWidth/2;i>=0;i=i-25)
+	{
+		for(int j=screenHeight/2;j>=0;j=j-25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	//plotting origin axes
+	setcolor(YELLOW);
+	line(0,screenHeight/2,screenWidth,screenHeight/2);
+	line(screenWidth/2,0,screenWidth/2,screenHeight);
 }
-
-int main()
-{
-
-    float r, x, y, x0, y0, pk, xc, yc, tx, ty;
-    int i;
-    double angle, radian;
-
-    cout << "Enter redius: ";
-    cin >> r;
-    cout << "Enter center point (xc,yc): ";
-    cin >> xc >> yc;
-
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char *)" ");
-
-    drawing_rectangle(xc + 80, 1, xc + 80, 500, RED);
-    drawing_rectangle(1, yc + 80, 500, yc + 80, RED);
-    // radian=angle*3.14/180;
-    // simple circle
-    setcolor(RED);
-    circle(xc, yc, r);
-
-    // reflection about x-axis circle
+int main(){
+	
+	float r,xc,yc;
+	
+	
+	cout<<"Enter the value of radius r : ";
+	cin>>r;
+	cout<<"Enter the value of center point (xc,yc): ";
+	cin>>xc>>yc;
+	
+    //graphics driver
+	int gd=DETECT,gm;
+	initgraph(&gd,&gm,(char *)" ");
+	
+	//window size measurement and initialization
+	DWORD screenWidth=GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight=GetSystemMetrics(SM_CYSCREEN);
+	
+	//graph plotting function call
+	plotgraph(screenWidth,screenHeight);
+	//before reflection
+	setcolor(BLUE);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);
+	outtextxy((screenWidth/2)+xc,(screenHeight/2)-yc+10, "Before reflection");
+    
+    //x-axis reflection
+    xc=xc;
+    yc=-yc;
+    
     setcolor(GREEN);
-    circle(xc + 2 * 80, yc, r);
-    // reflection about y-axis circle
-    setcolor(BLUE);
-    circle(xc, yc + 2 * 80, r);
-    // reflection about xy-axis circle
-    setcolor(WHITE);
-    circle(xc + 2 * 80, yc + 2 * 80, r);
-    getch();
-    closegraph();
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);    
+    outtextxy((screenWidth/2)+xc+10,(screenHeight/2)-yc-10, "x-axis reflection");
+    outtextxy((screenWidth/2)+5,(screenHeight/2)+5, "(0,0)");
+    
+    /*
+    //y-axis reflection
+    xc=-xc;
+    yc=yc;
+    
+    setcolor(RED);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);    
+    outtextxy((screenWidth/2)+xc+10,(screenHeight/2)-yc-10, "y-axis reflection");
+   */
+	getch();
+	closegraph();
+	
+
 }

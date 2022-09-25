@@ -1,54 +1,75 @@
+//scaling of circle from simple circle drawing
+//scaling
 #include<bits/stdc++.h>
 #include<graphics.h>
 using namespace std;
-void drawing_line(float x1, float y1, float x2, float y2, int color)
-{
-    float dx, dy, steps,x_inc, y_inc;
 
-    dx= x2-x1;
-    dy= y2-y1;
-    if(abs(dx)>abs(dy)) steps = abs(dx);
-    else steps= abs(dy);
-    x_inc= dx/steps;
-    y_inc= dy/steps;
-    int i=1;
-    
-    do
-    {
-        putpixel(x1,y1,color);
-        x1+= x_inc;
-        y1+= y_inc;
-    } while (i++<=steps);
-    
+
+void plotgraph(int screenWidth,int screenHeight)
+{
+	//plotting grids
+	for(int i=screenWidth/2;i<=screenWidth;i=i+25)
+	{
+		for(int j=screenHeight/2;j<=screenHeight;j=j+25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	for(int i=screenWidth/2;i>=0;i=i-25)
+	{
+		for(int j=screenHeight/2;j>=0;j=j-25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	//plotting origin axes
+	setcolor(YELLOW);
+	line(0,screenHeight/2,screenWidth,screenHeight/2);
+	line(screenWidth/2,0,screenWidth/2,screenHeight);
 }
 
-int main()
-{
+int main(){
+	
+	
+	float r,xc,yc,sx,sy;
+	int i;
 
-float x,y,x2,y2,x1,y1,sx,sy;
-int i;
+	cout<<"Enter the value of radius r : ";
+	cin>>r;
+	cout<<"Enter the value of center point (xc,yc): ";
+	cin>>xc>>yc;
+	cout<<"Enter the value of scaling factor (sx): ";
+	cin>>sx;
+    int gd=DETECT,gm;
+	initgraph(&gd,&gm,(char*)" ");
 
-cout<<"Enter 1st point (x0,y0): ";
-cin>>x1>>y1;
-cout<<"Enter 2nd point (x1,y1): ";
-cin>>x2>>y2;
-cout<<"Enter scaling factor (sx,sy): ";
-cin>>sx>>sy;
+	//window size measurement and initialization
+	DWORD screenWidth=GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight=GetSystemMetrics(SM_CYSCREEN);
+	initwindow(screenWidth,screenHeight,"",-3,-3);
+	
+	//graph plotting function call
+	plotgraph(screenWidth,screenHeight);
+	//circle before scaling
+	setcolor(BLUE);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);
+	
+	
+    outtextxy((screenWidth/2)+xc,(screenHeight/2)-yc+10, "Before scaling");
+	//calculating the scaled coordinates
+	//xc=xc*sx;
+	//yc=yc*sy;
+      r=r*sx;
+	setcolor(GREEN);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);
+	
+    outtextxy((screenWidth/2)+xc+60,(screenHeight/2)-yc-10, "After scaling");
+    outtextxy((screenWidth/2)+5,(screenHeight/2)+5, "(0,0)");
 
- 
-int gd=DETECT,gm;
-initgraph(&gd,&gm,(char*)" ");
-// Before Scalling line Indicate by Green 
-
-drawing_line(x1,y1,x2,y2,GREEN);
-// Scalling line 
-x1=x1*sx;
-y1=y1*sy;
-x2=x2*sx;
-y2=y2*sy;
-// After Scalling line Indicate by RED 
-drawing_line(x1,y1,x2,y2,RED);
-
-getch();
-closegraph();
+	getch();
+	closegraph();
 }

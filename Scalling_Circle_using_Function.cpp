@@ -1,31 +1,75 @@
+//scaling of circle from simple circle drawing
+//scaling
 #include<bits/stdc++.h>
 #include<graphics.h>
 using namespace std;
 
-int main()
+
+void plotgraph(int screenWidth,int screenHeight)
 {
+	//plotting grids
+	for(int i=screenWidth/2;i<=screenWidth;i=i+25)
+	{
+		for(int j=screenHeight/2;j<=screenHeight;j=j+25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	for(int i=screenWidth/2;i>=0;i=i-25)
+	{
+		for(int j=screenHeight/2;j>=0;j=j-25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	//plotting origin axes
+	setcolor(YELLOW);
+	line(0,screenHeight/2,screenWidth,screenHeight/2);
+	line(screenWidth/2,0,screenWidth/2,screenHeight);
+}
 
-    float r,x,y,x0,y0,pk,xc,yc,sx,sy;
-    int i;
+int main(){
+	
 
-    cout<<"Enter Redius: ";
-    cin>>r;
-    cout<<"Enter center of Circle(xc,yc): ";
-    cin>>xc>>yc;
-    cout<<"Enter Scalling factor (sx): ";
-    cin>>sx;
+	float r,xc,yc,sx,sy;
+	int i;
+
+	cout<<"Enter the value of radius r : ";
+	cin>>r;
+	cout<<"Enter the value of center point (xc,yc): ";
+	cin>>xc>>yc;
+	cout<<"Enter the value of scaling factor (sx): ";
+	cin>>sx;
     
-    int gd=DETECT,gm;
-    initgraph(&gd,&gm,(char*)" ");
-    setbkcolor(WHITE);
-    //Original circle Indicate with Red 
-    setcolor(RED);
-    circle(xc,yc,r);
+	int gd=DETECT,gm;
+	initgraph(&gd,&gm,(char *)" ");
 
-    //Scalling circle Indicate BY Green
-    setcolor(GREEN);
-    circle(xc,yc,r*sx);
+	//window size measurement and initialization
+	DWORD screenWidth=GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight=GetSystemMetrics(SM_CYSCREEN);
+	 
+	//graph plotting function call
+	plotgraph(screenWidth,screenHeight);
+	//circle before scaling
+	setcolor(BLUE);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);
+	
+	
+    outtextxy((screenWidth/2)+xc,(screenHeight/2)-yc+10, "Before scaling");
+	//calculating the scaled coordinates
+	//xc=xc*sx;
+	//yc=yc*sy;
+      r=r*sx;
+	setcolor(GREEN);
+	circle((screenWidth/2)+xc,(screenHeight/2)-yc,r);
+	
+    outtextxy((screenWidth/2)+xc+60,(screenHeight/2)-yc-10, "After scaling");
+    outtextxy((screenWidth/2)+5,(screenHeight/2)+5, "(0,0)");
 
-    getch();
-    closegraph();
+	getch();
+	closegraph();
 }

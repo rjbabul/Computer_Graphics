@@ -1,93 +1,84 @@
- 
- /*
-   | s1 0|
- s=| 0 s2|
+//Scaling of triangle using  starting and ending points
 
- p = |0|
-     |0|
- p' = s*p;
-
-
- */
 #include<bits/stdc++.h>
 #include<graphics.h>
 using namespace std;
-// Using DDA line drawing algorithm 
 
-void drawing_line(float x1, float y1, float x2, float y2, int color)
+
+void plotgraph(int screenWidth,int screenHeight)
 {
-    float dx, dy, steps,x_inc, y_inc;
-
-    dx= x2-x1;
-    dy= y2-y1;
-    if(abs(dx)>abs(dy)) steps = abs(dx);
-    else steps= abs(dy);
-    x_inc= dx/steps;
-    y_inc= dy/steps;
-    int i=1;
-    
-    do
-    {
-        putpixel(x1,y1,color);
-        x1+= x_inc;
-        y1+= y_inc;
-    } while (i++<=steps);
-    
-}
- 
-void findNewCoordinate(int s[][2], int p[][1])
-{
-	
-	p[0][0]= p[0][0]*s[0][0];
-	p[1][0]=p[1][0]*s[1][1];
-}
-
- 
-void scale(int x[], int y[], int sx, int sy)
-{
-	// Triangle before Scaling Indicate GREEN
-
-	drawing_line(x[0], y[0], x[1], y[1],GREEN);
-	drawing_line(x[1], y[1], x[2], y[2],GREEN);
-	drawing_line(x[2], y[2], x[0], y[0],GREEN);
-
-	int s[2][2] = { sx, 0, 0, sy };
-	int p[2][1];
-
- 
-	for (int i = 0; i < 3; i++)
+	//plotting grids
+	for(int i=screenWidth/2;i<=screenWidth;i=i+25)
 	{
-		p[0][0] = x[i];
-		p[1][0] = y[i];
-
-		findNewCoordinate(s, p);
-
-		x[i] = p[0][0];
-		y[i] = p[1][0];
+		for(int j=screenHeight/2;j<=screenHeight;j=j+25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
 	}
-
-	// Triangle after Scaling  Indicate RED
-
-	drawing_line(x[0], y[0], x[1], y[1],RED);
-	drawing_line(x[1], y[1], x[2], y[2],RED);
-	drawing_line(x[2], y[2], x[0], y[0],RED);
+	for(int i=screenWidth/2;i>=0;i=i-25)
+	{
+		for(int j=screenHeight/2;j>=0;j=j-25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	//plotting origin axes
+	setcolor(YELLOW);
+	line(0,screenHeight/2,screenWidth,screenHeight/2);
+	line(screenWidth/2,0,screenWidth/2,screenHeight);
 }
 
- 
-int main()
-{
-	int x[] = { 100, 200, 300 };
-	int y[] = { 200, 100, 200 };
-	int sx = 2, sy = 2;
+int main(){
+	
+	
+	float x,y,x0,y0,x1,y1,x2,y2,sx,sy;
+	int i;
 
-	int gd=DETECT, gm;
-	 
-	initgraph(&gd, &gm,(char*)" ");
+	cout<<"Enter the value of first point (x0,y0): ";
+	cin>>x0>>y0;
+	cout<<"Enter the value of second point (x1,y1): ";
+	cin>>x1>>y1;
+	cout<<"Enter the value of third point (x2,y2): ";
+	cin>>x2>>y2;
+	cout<<"Enter the value of scaling factor (sx,sy): ";
+	cin>>sx>>sy;
+    int gd=DETECT,gm;
+	initgraph(&gd,&gm,(char *)" ");
 
-	scale(x, y, sx,sy);
+	//window size measurement and initialization
+	DWORD screenWidth=GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight=GetSystemMetrics(SM_CYSCREEN);
+	initwindow(screenWidth,screenHeight,"",-3,-3);
+	
+	//graph plotting function call
+	plotgraph(screenWidth,screenHeight);
+	//triangle before scaling
+	setcolor(BLUE);
+	line((screenWidth/2)+x0,(screenHeight/2)-y0,(screenWidth/2)+x1,(screenHeight/2)-y1);
+	line((screenWidth/2)+x1,(screenHeight/2)-y1,(screenWidth/2)+x2,(screenHeight/2)-y2);
+	line((screenWidth/2)+x2,(screenHeight/2)-y2,(screenWidth/2)+x0,(screenHeight/2)-y0);
+	
+    outtextxy((screenWidth/2)+x0,(screenHeight/2)-y0+10, "Before scaling");
+	//calculating the scaled coordinates
+	x0=x0*sx;
+	y0=y0*sy;
+	x1=x1*sx;
+	y1=y1*sy;
+	x2=x2*sx;
+	y2=y2*sy;
+
+	setcolor(GREEN);
+	line((screenWidth/2)+x0,(screenHeight/2)-y0,(screenWidth/2)+x1,(screenHeight/2)-y1);
+	line((screenWidth/2)+x1,(screenHeight/2)-y1,(screenWidth/2)+x2,(screenHeight/2)-y2);
+	line((screenWidth/2)+x2,(screenHeight/2)-y2,(screenWidth/2)+x0,(screenHeight/2)-y0);
+	
+    outtextxy((screenWidth/2)+x1+10,(screenHeight/2)-y1-10, "After scaling");
+    outtextxy((screenWidth/2)+5,(screenHeight/2)+5, "(0,0)");
 
 	getch();
 	closegraph();
-
-	return 0;
 }

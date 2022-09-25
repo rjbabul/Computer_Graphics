@@ -36,30 +36,35 @@ void draw_plot(int x,int y){
      line(0,screenHeight/2, screenWidth,screenHeight/2 );
      setcolor(YELLOW);
      line(screenWidth/2,0, screenWidth/2,screenHeight );
-  
+    int cnt =0;
      for(int i= x/2+20; i<=x;i+=20){
         for(int j=y/2+20;j<=y;j+=20){
             setcolor(DARKGRAY);
+            if(cnt%5==0)
+                  setcolor(BROWN);
 			line(0,j,x,j);
 			line(i,0,i,y);
+            cnt++;
         }
      } 
-
+    cnt=0;
      for(int i= x/2-20; i>=0;i-=20){
         for(int j=y/2-20;j>=0;j-=20){
             setcolor(DARKGRAY);
+            if(cnt%5==0)
+                  setcolor(BROWN);
 			line(0,j,x,j);
 			line(i,0,i,y);
+            cnt++;
         }
      } 
 
 }
 
-
 int main()
 {
     float x1, y1, x2, y2;
-
+    
     
     cout<<"Enter start Point (x1, y1) :";
     cin>>x1>>y1;
@@ -82,9 +87,9 @@ int main()
      setcolor(WHITE);
      outtextxy(midx+20,midy+20,"(0,0)");
      setcolor(WHITE);
-     outtextxy(x1+5,y1+5,"Starting point");
+     outtextxy(x1+5,y1+10,"Starting point");
      setcolor(WHITE);
-     outtextxy(x2+5,y2+5,"Ending Point");
+     outtextxy(x2+5,y2+10,"Ending Point");
 
     ///  dda function call
     dda(x1, y1, x2, y2, RED);

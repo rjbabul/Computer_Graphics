@@ -1,41 +1,102 @@
+//midpoint circle draw
 #include<bits/stdc++.h>
 #include<graphics.h>
+using namespace std;
 
-using namespace std; 
-int main()
+void plotgraph(int screenWidth,int screenHeight)
 {
-    int xc,yc, redius, x, y;
-    cout<<"Enter center of Circle"<<endl;
-    cin>>xc>>yc;
-    cout<<"Enter Redius of Circle"<<endl;
-    cin>>redius;
-    x=0;
-    y = redius;
-    int p = 1-redius;
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*)" ");
-    do{
-        putpixel(xc + x, yc + y,RED); 
-        putpixel (xc - x, yc + y,BLUE); 
-        putpixel (xc + x, yc - y,GREEN); 
-        putpixel (xc - x, yc - y,WHITE); 
-        putpixel (xc + y, yc + x,YELLOW); 
-        putpixel (xc - y, yc + x,BLUE); 
-        putpixel (xc + y, yc - x,RED); 
-        putpixel (xc - y, yc - x,GREEN);
-      
-      if(p<0)
+	//plotting grids
+	for(int i=screenWidth/2;i<=screenWidth;i=i+25)
+	{
+		for(int j=screenHeight/2;j<=screenHeight;j=j+25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	for(int i=screenWidth/2;i>=0;i=i-25)
+	{
+		for(int j=screenHeight/2;j>=0;j=j-25)
+		{
+			setcolor(WHITE);
+			line(0,j,screenWidth,j);
+			line(i,0,i,screenHeight);
+		}
+	}
+	//plotting origin axes
+	setcolor(YELLOW);
+	line(0,screenHeight/2,screenWidth,screenHeight/2);
+	line(screenWidth/2,0,screenWidth/2,screenHeight);
+}
+int main(){
+	
+	float x,y,r,xc,yc,x1,y1,dx,dy,pk;
+	
+	//graphics driver
+	
+	
+	cout<<"Enter the value of radius r : ";
+	cin>>r;
+	cout<<"Enter the value of center point (xc,yc): ";
+	cin>>xc>>yc;
+	
+	int gd=DETECT,gm;
+	initgraph(&gd,&gm,(char*)" ");
+	
+	//window size measurement and initialization
+	DWORD screenWidth=GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight=GetSystemMetrics(SM_CYSCREEN);
+ 
+	
+	//graph plotting function call
+	plotgraph(screenWidth,screenHeight);
+	
+  
+	x=0;
+	y=r;
+	
+	if(r- (int)r==0.0)
+	{
+		pk=1-r;          //initial value of decision parameter pk
+	}
+	else
+	{
+		pk=(5.0/4.0-r);
+	}
+	
+	
+//	cout<<"x\ty"<<endl;	
+    
+    while(x<=y)
+    {
+    
+        putpixel((screenWidth/2)+(xc+x),(screenHeight/2)-(yc+y),GREEN);
+        putpixel((screenWidth/2)+(xc+x),(screenHeight/2)-(yc-y),GREEN);
+        putpixel((screenWidth/2)+(xc-x),(screenHeight/2)-(yc+y),GREEN);
+        putpixel((screenWidth/2)+(xc-x),(screenHeight/2)-(yc-y),GREEN);
+        putpixel((screenWidth/2)+(xc+y),(screenHeight/2)-(yc+x),GREEN);  
+        putpixel((screenWidth/2)+(xc+y),(screenHeight/2)-(yc-x),GREEN);
+        putpixel((screenWidth/2)+(xc-y),(screenHeight/2)-(yc+x),GREEN);
+        putpixel((screenWidth/2)+(xc-y),(screenHeight/2)-(yc-x),GREEN);
+        
+        if(pk<0)
         {
-            p+= 2*x-1;
-        }
-      else
-        {
-           y--;
-           p+= 2*(x-y)+1;
-        }
-        x++;
-    }while(x<y);
-    getch();
-    closegraph();
-    return 0;
+        	x=x+1;
+        	y=y;
+        	pk=pk+2*x+1;
+		}
+		else
+		{
+			x=x+1;
+        	y=y-1;
+        	pk=pk+2*x+1-2*y;
+		}
+	
+	}
+	
+	getch();
+	closegraph();
+	
+
 }
